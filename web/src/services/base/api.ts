@@ -7,15 +7,39 @@ import type { ESettingKey } from './constant';
 import type { ISetting } from './typing';
 
 export async function getUserInfo() {
-	return axios.get(`${ip3}/api/users/me`);
+	return axios.get(`${ip3}/users/me`);
 }
 
-export async function adminlogin(payload: { username?: string; password?: string }) {
-	return axios.post(`${ip3}/auth/login`, { ...payload, platform: 'Web' });
+export async function authLogin(payload: { username: string; password: string }) {
+	return axios.post(`${ip3}/auth/login`, payload);
 }
 
-export async function verifyGoogleLogin(payload: { token: string }) {
-	return axios.post(`${ip3}/api/auth/google/verify`, payload);
+export async function authRegister(payload: { username: string; password: string; email?: string; firstName?: string; lastName?: string }) {
+	return axios.post(`${ip3}/auth/register`, payload);
+}
+
+export async function getUserPermissions(phanHeId?: string) {
+	return axios.get(`${ip3}/phan-quyen/me`, { params: { phanHeId } });
+}
+
+export async function getChucNangTree(phanHeId: string) {
+	return axios.get(`${ip3}/chuc-nang/tree`, { params: { phanHeId } });
+}
+
+export async function getVaiTroChucNang(vaiTroId: string) {
+	return axios.get(`${ip3}/vai-tro/${vaiTroId}/chuc-nang`);
+}
+
+export async function updateVaiTroChucNang(vaiTroId: string, chucNangIds: string[]) {
+	return axios.put(`${ip3}/vai-tro/${vaiTroId}/chuc-nang`, { chucNangIds });
+}
+
+export async function getNguoiDungVaiTro(userId: string, phanHeId?: string) {
+	return axios.get(`${ip3}/phan-quyen/nguoi-dung/${userId}/vai-tro`, { params: { phanHeId } });
+}
+
+export async function updateNguoiDungVaiTro(userId: string, phanHeId: string, vaiTroIds: string[]) {
+	return axios.put(`${ip3}/phan-quyen/nguoi-dung/${userId}/vai-tro`, { phanHeId, vaiTroIds });
 }
 
 export async function initOneSignal(payload: { playerId: string }) {

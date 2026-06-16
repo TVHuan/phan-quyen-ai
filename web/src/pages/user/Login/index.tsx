@@ -1,27 +1,25 @@
 import Footer from '@/components/Footer';
-import { getUserInfo, verifyGoogleLogin } from '@/services/base/api';
-import { message } from 'antd';
+import { getUserInfo, authLogin } from '@/services/base/api';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message } from 'antd';
 import React from 'react';
 import { history, useModel } from 'umi';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import styles from './index.less';
-
-declare const APP_CONFIG_GOOGLE_CLIENT_ID: string;
 
 const Login: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
+  const [loading, setLoading] = React.useState(false);
 
-  const handleGoogleSuccess = async (credentialResponse: any) => {
+  const handleLogin = async (values: { username: string; password: string }) => {
+    setLoading(true);
     try {
-      const idToken = credentialResponse.credential;
-
-      const res = await verifyGoogleLogin({ token: idToken });
+      const res = await authLogin(values);
       const accessToken = res.data?.data?.access_token || res.data?.access_token;
 
       localStorage.setItem('access_token', accessToken);
       localStorage.setItem('token', accessToken);
 
-      const info = await getUserInfo(); // Lấy thông tin từ backend
+      const info = await getUserInfo();
       setInitialState({
         ...initialState,
         currentUser: info.data?.data || info.data,
@@ -29,8 +27,10 @@ const Login: React.FC = () => {
 
       message.success('Đăng nhập thành công');
       history.push('/dashboard');
-    } catch (error) {
-      message.error('Đăng nhập thất bại');
+    } catch {
+      message.error('Tên đăng nhập hoặc mật khẩu không đúng');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -44,18 +44,40 @@ const Login: React.FC = () => {
         <div className={styles.rightPanel}>
           <div className={styles.loginCard}>
             <div className={styles.header}>
-              <div className={styles.desc}>Đăng nhập bằng tài khoản Google</div>
+              <div className={styles.title}>Phân Quyền AI</div>
+              <div className={styles.desc}>Đăng nhập vào hệ thống</div>
             </div>
 
             <div className={styles.main}>
-              <GoogleOAuthProvider clientId={APP_CONFIG_GOOGLE_CLIENT_ID || 'dummy-client-id.apps.googleusercontent.com'}>
-                <GoogleLogin
-                  onSuccess={handleGoogleSuccess}
-                  onError={() => {
-                    message.error('Đăng nhập Google thất bại');
-                  }}
-                />
-              </GoogleOAuthProvider>
+              <Form onFinish={handleLogin} layout='vertical'>
+                <Form.Item
+                  name='username'
+                  rules={[{ required: true, message: 'Vui lòng nhập tên đăng nhập' }]}
+                >
+                  <Input
+                    prefix={<UserOutlined />}
+                    placeholder='Tên đăng nhập'
+                    size='large'
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  name='password'
+                  rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined />}
+                    placeholder='Mật khẩu'
+                    size='large'
+                  />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button type='primary' htmlType='submit' loading={loading} block size='large'>
+                    Đăng nhập
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
           </div>
         </div>

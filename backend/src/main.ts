@@ -7,8 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors(); // Bật CORS để cho phép base web gọi API
-  app.setGlobalPrefix('api'); // Đặt prefix cho tất cả route
+  app.enableCors();
 
   // Áp dụng Global Interceptor
   app.useGlobalInterceptors(new ResponseInterceptor());
@@ -32,7 +31,7 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}/api`);
+  console.log(`Application is running on: http://localhost:${port}`);
   console.log(`Swagger is available at: http://localhost:${port}/api`);
 }
 bootstrap();

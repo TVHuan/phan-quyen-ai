@@ -21,7 +21,7 @@ import { AppModules } from './services/base/constant';
 import type { IInitialState } from './services/base/typing';
 import './styles/global.less';
 import { currentRole } from './utils/ip';
-import { getUserInfo } from '@/services/base/api';
+import { getUserInfo, getUserPermissions } from '@/services/base/api';
 
 
 
@@ -51,6 +51,17 @@ export async function getInitialState(): Promise<IInitialState> {
 		try {
 			const info = await getUserInfo();
 			initialState.currentUser = info.data?.data || info.data;
+
+			const permissions = await getUserPermissions();
+			const perms = permissions.data?.data;
+			if (perms?.length) {
+				initialState.authorizedPermissions = perms.map((p: any) => ({
+					scopes: p.scopes ?? [],
+					rsname: p.rsname ?? 'ai-mo-phong',
+					rsid: p.rsname ?? 'ai-mo-phong',
+				}));
+				sessionStorage.setItem('initialState', JSON.stringify({ authorizedPermissions: initialState.authorizedPermissions }));
+			}
 		} catch (error) {
 			console.error('Failed to get user info in getInitialState', error);
 			localStorage.removeItem('token');

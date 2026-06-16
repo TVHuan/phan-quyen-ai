@@ -5,6 +5,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { PhanHeModule } from './modules/phan-he/phan-he.module';
+import { ChucNangModule } from './modules/chuc-nang/chuc-nang.module';
+import { VaiTroModule } from './modules/vai-tro/vai-tro.module';
+import { VaiTroChucNangModule } from './modules/vai-tro-chuc-nang/vai-tro-chuc-nang.module';
+import { NguoiDungVaiTroModule } from './modules/nguoi-dung-vai-tro/nguoi-dung-vai-tro.module';
+import { PhanQuyenModule } from './modules/phan-quyen/phan-quyen.module';
+import { SeedService } from './seed.service';
 
 @Module({
   imports: [
@@ -21,14 +28,20 @@ import { AuthModule } from './modules/auth/auth.module';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: true, // Chỉ dùng trong môi trường dev
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
     UsersModule,
     AuthModule,
+    PhanHeModule,
+    ChucNangModule,
+    VaiTroModule,
+    VaiTroChucNangModule,
+    NguoiDungVaiTroModule,
+    PhanQuyenModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, SeedService],
 })
 export class AppModule {}

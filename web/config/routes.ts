@@ -27,12 +27,42 @@
 		name: 'Dashboard',
 		component: './TrangChu',
 		icon: 'HomeOutlined',
+		maChucNang: 'dashboard|xem',
 	},
 	{
 		path: '/gioi-thieu',
 		name: 'About',
 		component: './TienIch/GioiThieu',
 		hideInMenu: true,
+	},
+
+	// QUẢN LÝ PHÂN QUYỀN
+	{
+		name: 'Quản lý phân quyền',
+		path: '/quan-ly-phan-quyen',
+		icon: 'SafetyCertificateOutlined',
+		maChucNang: 'phanquyen|xem',
+		listChucNang: ['phanquyen|quanly', 'phanquyen|xem'],
+		routes: [
+			{
+				name: 'Hệ thống',
+				path: '/quan-ly-phan-quyen/he-thong',
+				component: './QuanLyPhanQuyen/PhanHe',
+				maChucNang: 'phanhe|xem',
+			},
+			{
+				name: 'Chức năng',
+				path: '/quan-ly-phan-quyen/chuc-nang',
+				component: './QuanLyPhanQuyen/ChucNang',
+				maChucNang: 'chucnang|xem',
+			},
+			{
+				name: 'Vai trò',
+				path: '/quan-ly-phan-quyen/vai-tro',
+				component: './QuanLyPhanQuyen/VaiTro',
+				maChucNang: 'vaitro|xem',
+			},
+		],
 	},
 
 	// // DANH MUC HE THONG
