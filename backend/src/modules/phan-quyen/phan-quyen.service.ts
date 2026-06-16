@@ -31,21 +31,24 @@ export class PhanQuyenService {
     const result: { scopes: string[]; rsname: string }[] = [];
 
     for (const system of systems) {
-      const vaiTroIds = await this.nguoiDungVaiTroService.getVaiTroIdsByNguoiDung(
-        nguoiDungId,
-        system.id,
-      );
+      const vaiTroIds =
+        await this.nguoiDungVaiTroService.getVaiTroIdsByNguoiDung(
+          nguoiDungId,
+          system.id,
+        );
 
       if (!vaiTroIds.length) {
         result.push({ scopes: [], rsname: system.ma });
         continue;
       }
 
-      const chucNangIds = await this.vaiTroChucNangService.getChucNangIdsByVaiTroIds(vaiTroIds);
+      const chucNangIds =
+        await this.vaiTroChucNangService.getChucNangIdsByVaiTroIds(vaiTroIds);
 
       const chucNangList = chucNangIds.length
         ? await this.chucNangRepository.find({
-            where: chucNangIds.map((id) => ({ id } as any)),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+            where: chucNangIds.map((id) => ({ id }) as any),
           })
         : [];
 
@@ -58,16 +61,21 @@ export class PhanQuyenService {
     return result;
   }
 
-  async getPermissionsByRoleCode(roleMa: string, phanHeMa?: string): Promise<{ scopes: string[]; rsname: string }[]> {
+  async getPermissionsByRoleCode(
+    roleMa: string,
+    phanHeMa?: string,
+  ): Promise<{ scopes: string[]; rsname: string }[]> {
     const phanHeWhere: any = { trangThai: true };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (phanHeMa) phanHeWhere.ma = phanHeMa;
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const systems = await this.phanHeRepository.find({ where: phanHeWhere });
     const result: { scopes: string[]; rsname: string }[] = [];
 
     for (const system of systems) {
       const vaiTro = await this.vaiTroRepository.findOne({
-        where: { ma: roleMa, phanHeId: system.id } as any,
+        where: { ma: roleMa, phanHeId: system.id },
       });
 
       if (!vaiTro) {
@@ -75,11 +83,13 @@ export class PhanQuyenService {
         continue;
       }
 
-      const chucNangIds = await this.vaiTroChucNangService.getChucNangIdsByVaiTroIds([vaiTro.id]);
+      const chucNangIds =
+        await this.vaiTroChucNangService.getChucNangIdsByVaiTroIds([vaiTro.id]);
 
       const chucNangList = chucNangIds.length
         ? await this.chucNangRepository.find({
-            where: chucNangIds.map((id) => ({ id } as any)),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+            where: chucNangIds.map((id) => ({ id }) as any),
           })
         : [];
 

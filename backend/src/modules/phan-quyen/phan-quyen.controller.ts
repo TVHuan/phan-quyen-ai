@@ -9,7 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { PhanQuyenService } from './phan-quyen.service';
 import { NguoiDungVaiTroService } from '../nguoi-dung-vai-tro/nguoi-dung-vai-tro.service';
 
@@ -26,13 +31,24 @@ export class PhanQuyenController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Lấy permissions của user hiện tại' })
   @ApiQuery({ name: 'phanHeId', required: false })
-  async getMyPermissions(@Req() req: any, @Query('phanHeId') phanHeId?: string) {
+  async getMyPermissions(
+    @Req() req: any,
+    @Query('phanHeId') phanHeId?: string,
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     return this.phanQuyenService.getPermissions(req.user.id, phanHeId);
   }
 
   @Get('role/:ma/chuc-nang')
-  @ApiOperation({ summary: 'Lấy scopes của một vai trò theo mã (dùng cho AI Simulator tra cứu)' })
-  @ApiQuery({ name: 'phanHe', required: false, description: 'Mã phân hệ, VD: ai-mo-phong' })
+  @ApiOperation({
+    summary:
+      'Lấy scopes của một vai trò theo mã (dùng cho AI Simulator tra cứu)',
+  })
+  @ApiQuery({
+    name: 'phanHe',
+    required: false,
+    description: 'Mã phân hệ, VD: ai-mo-phong',
+  })
   async getRolePermissions(
     @Param('ma') ma: string,
     @Query('phanHe') phanHe?: string,
