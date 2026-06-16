@@ -1,0 +1,75 @@
+# Dependencies
+node_modules/
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.history/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+*.tmp
+*.bak
+*~
+.temp/
+tmp/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Cache
+.eslintcache
+.cache/
+
+# Build tools
+.husky/
+
+# Development
+.umi/
+.umi-production/
+
+# Other
+screenshot/
+.firebase/
+functions/*
+!/functions/.gitkeep
+
+# Sentry
+.sentryclirc

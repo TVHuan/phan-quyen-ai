@@ -1,0 +1,30 @@
+.header-content {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	height: 100%;
+
+	padding: 4px 0;
+	font-weight: 700;
+	font-size: 15px;
+
+	img {
+		height: 48px;
+		cursor: pointer;
+
+		filter: drop-shadow(1px 1px #ccc) drop-shadow(-1px 1px #ccc) drop-shadow(1px -1px #ccc) drop-shadow(-1px -1px #ccc);
+	}
+
+	div {
+		line-height: 1.35;
+
+		@media (max-width: @screen-md) {
+			display: none;
+		}
+	}
+
+	@media (max-width: @screen-md) {
+		margin-left: 0;
+		padding: 3px 0;
+	}
+}
