@@ -1,4 +1,5 @@
 # AI Mô Phỏng - Frontend (UmiJS)
+admin20k/abc123
 
 Đây là Frontend Base Code thuần chủng dành riêng cho hệ thống **AI Mô Phỏng**, được "tẩy rửa" và tối ưu hóa tối đa, loại bỏ hoàn toàn các cấu trúc thừa thãi từ kiến trúc Multi-tenant (đa phân hệ) cũ. Hệ thống sử dụng [UmiJS](https://umijs.org/) (React 19) kết hợp thư viện UI [Ant Design v5](https://ant.design/).
 
