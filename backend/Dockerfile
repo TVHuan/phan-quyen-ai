@@ -2,9 +2,9 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json ./
 
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 COPY . .
 
